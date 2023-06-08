@@ -16,4 +16,4 @@ cd testing
 
 npm install  
 
-npm run dev  
+npm run cypress  
