@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/vhost:/etc/nginx/vhost.d
+      - ./nginx/html:/usr/share/nginx/html
+
+  myapp:
+    container_name: myapp
+    build: ./myapp
+    expose:
+      - 80
+    volumes:
+      - ./myapp:/app
+      - /app/node_modules
+    environment:
+      - VIRTUAL_HOST=myapp.localhost
+
+volumes:
+  myapp:
